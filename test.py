@@ -36,7 +36,7 @@ def fetch_and_display():
     # print("Form Data:", request.form)
     # input payload from the HTML form
     payload = {
-        "type": request.form["type"],
+        "type": "vehicle",
         "distance_unit": request.form["distance_unit"],
         "distance_value": int(request.form["distance_value"]),
         "vehicle_model_id": request.form["vehicle_model_id"]
