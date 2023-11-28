@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request, render_template, redirect, url_for
 import requests
 import firebase_admin
 from firebase_admin import credentials, firestore
-# from support import get_vehicle_make_id, get_vehicle_models_id
+from support import get_vehicle_make_id, fetch_data
 
 
 app = Flask(__name__)
