@@ -2,82 +2,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="index.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carbon Interface API</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            color: #555;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        input[type="submit"] {
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
 </head>
 <body>
+    <div class="container_v">
     <form action="/fetch_and_display" method="post" enctype="application/x-www-form-urlencoded">
         <h1>Carbon Interface API Form</h1>
 
-        <label for="type">Type:</label>
-        <input type="text" name="type" required>
-
-        <label for="distance_unit">Distance Unit:</label>
-        <input type="text" name="distance_unit" required>
-
         <label for="distance_value">Distance Value:</label>
-        <input type="number" name="distance_value" required>
 
+        <div class="container_h">
+            <input type="number" name="distance_value" min="0" step="0.1" required>
+
+            <select name="distance_unit">
+                <option value="km">km</option>
+                <option value="mi">miles</option>
+            </select>
+        </div>
+        
         <label for="vehicle_model_id">Vehicle Model ID:</label>
         <input type="text" name="vehicle_model_id" required>
-
+    
         <input type="submit" value="Submit">
     </form>
 
     <form action="/alldetails" method="get">
         <input type="submit" value="All Details">
     </form>
+    
+    </div>
 </body>
 </html>
