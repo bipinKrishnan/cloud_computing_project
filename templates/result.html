@@ -1,0 +1,80 @@
+<!-- result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Interface API Result</title>
+    <style>
+        
+        
+        .result-content {
+            margin-top: 20px;
+            overflow: auto;
+        }
+
+        .result-attributes {
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            margin: 0;
+        }
+
+        .attribute-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .attribute-value {
+            margin-bottom: 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Carbon Interface API Result</h1>
+
+        <div class="result-content">
+            <div class="result-attributes">
+                <div class="attribute-label">Carbon (g):</div>
+                <div class="attribute-value">{{ result.data.attributes.carbon_g }}</div>
+
+                <div class="attribute-label">Carbon (kg):</div>
+                <div class="attribute-value">{{ result.data.attributes.carbon_kg }}</div>
+
+                <div class="attribute-label">Carbon (lb):</div>
+                <div class="attribute-value">{{ result.data.attributes.carbon_lb }}</div>
+
+                <div class="attribute-label">Carbon (mt):</div>
+                <div class="attribute-value">{{ result.data.attributes.carbon_mt }}</div>
+
+                <div class="attribute-label">Distance Unit:</div>
+                <div class="attribute-value">{{ result.data.attributes.distance_unit }}</div>
+
+                <div class="attribute-label">Distance Value:</div>
+                <div class="attribute-value">{{ result.data.attributes.distance_value }}</div>
+
+                <div class="attribute-label">Estimated At:</div>
+                <div class="attribute-value">{{ result.data.attributes.estimated_at }}</div>
+
+                <div class="attribute-label">Vehicle Make:</div>
+                <div class="attribute-value">{{ result.data.attributes.vehicle_make }}</div>
+
+                <div class="attribute-label">Vehicle Model:</div>
+                <div class="attribute-value">{{ result.data.attributes.vehicle_model }}</div>
+
+                <div class="attribute-label">Vehicle Model ID:</div>
+                <div class="attribute-value">{{ result.data.attributes.vehicle_model_id }}</div>
+
+                <div class="attribute-label">Vehicle Year:</div>
+                <div class="attribute-value">{{ result.data.attributes.vehicle_year }}</div>
+            </div>
+        </div>
+
+        <div class="back-button">
+            <a href="/">Back to Form</a>
+        </div>
+    </div>
+</body>
+</html>
