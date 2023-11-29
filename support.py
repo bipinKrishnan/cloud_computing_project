@@ -32,7 +32,8 @@ def get_vehicle_models_id(CARBON_API_BASE_URL, ids, API_KEY):
             result= {
                 'id':i["data"]["id"],
                 'vehicle_model':i["data"]["attributes"]["name"],
-                'vehicle_make':i["data"]["attributes"]["vehicle_make"]}
+                'vehicle_make':i["data"]["attributes"]["vehicle_make"]
+                }
             vehicle_models.append(result)
     except Exception as e:
         print(f"Error fetching data for ID {id}: {e}")

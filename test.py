@@ -8,7 +8,7 @@ from support import get_vehicle_make_id, fetch_data
 
 app = Flask(__name__)
 
-cred = credentials.Certificate("/") # your filestore private key location
+cred = credentials.Certificate("/Users/ankuranurag/Desktop/ECS781P_Cloud Computing/mini_project/mini-project-406211-firebase-adminsdk-phfoe-2428e23dfb.json") # your filestore private key location
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -16,7 +16,11 @@ db = firestore.client()
 CARBON_API_BASE_URL = "https://www.carboninterface.com/api/v1"
 # API_KEY = os.environ.get("CARBON_API_KEY")
 
-API_KEY = ''## your carbon interface token
+API_KEY = 'QJLiupy4fP39cvCzJOLZA'## your carbon interface token
+
+vehicle_make_id = get_vehicle_make_id(CARBON_API_BASE_URL, API_KEY)
+vehicle_details = fetch_data (CARBON_API_BASE_URL, vehicle_make_id, API_KEY)
+
 
 # to serve the index.html form
 @app.route('/')
@@ -32,7 +36,14 @@ def fetch_and_display():
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
     }
-
+    # matching_vehicle = next(
+    #         (vehicle for vehicle in vehicle_details if
+    #          vehicle['vehicle_model'] == request.form["vehicle_model"] and
+    #          vehicle['vehicle_make'] == request.form["vehicle_make"] and
+    #          vehicle['year'] == int(request.form["vehicle_year"]),
+    #         None)
+    # if matching_vehicle:
+    #     matching_id = matching_vehicle['id']
     # print("Form Data:", request.form)
     # input payload from the HTML form
     payload = {
@@ -40,6 +51,7 @@ def fetch_and_display():
         "distance_unit": request.form["distance_unit"],
         "distance_value": int(request.form["distance_value"]),
         "vehicle_model_id": request.form["vehicle_model_id"]
+        # 'vehicle_model_id':matching_id
     }
     # print("Payload:", payload)
 
