@@ -53,7 +53,7 @@ def fetch_and_display():
     payload = {
         "type": "vehicle",
         "distance_unit": request.form["distance_unit"],
-        "distance_value": int(request.form["distance_value"]),
+        "distance_value": float(request.form["distance_value"]),
         "vehicle_model_id": request.form["vehicle_model_id"]
         # 'vehicle_model_id':matching_id
     }
@@ -65,7 +65,7 @@ def fetch_and_display():
         result = response.json()
 
         # Storing data in Firestore
-        store_in_firestore(result)
+        store_in_firestore(result, request.form["customer_name"])
 
         # updating the template of result.html with result
         return render_template('result.html', result=result)
@@ -74,9 +74,9 @@ def fetch_and_display():
         return jsonify({"error": "Failed to fetch data from API"}), response.status_code
 
 # Function to store data in Firestore
-def store_in_firestore(result):
+def store_in_firestore(result, cust_name):
     # Adding 'results' collection in Firestore database
-    results_ref = db.collection('results').document(result["data"]['attributes']['vehicle_model_id'])
+    results_ref = db.collection('results').document(cust_name)
 
     # transforming the data to store in dB
     # new document with the result data
