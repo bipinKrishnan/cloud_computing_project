@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="index.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carbon Interface API</title>
@@ -12,8 +12,21 @@
     <form action="/fetch_and_display" method="post" enctype="application/x-www-form-urlencoded">
         <h1>Carbon Interface API Form</h1>
 
-        <label for="distance_value">Distance Value:</label>
+        <label for="customer_name">Name :</label>
+        <input type="text" name="customer_name" required>
 
+        <div class="container_h">
+        <label for="vehicle_make">Brand :</label>
+        <input type="text" name="vehicle_make" required>
+
+        <label for="vehicle_model">Model : </label>
+        <input type="text" name="vehicle_model" required>
+        </div>
+        
+        <label for="year">Year :</label>
+        <input type="text" name="year" required>
+
+        <label for="distance_value">Distance Value:</label>
         <div class="container_h">
             <input type="number" name="distance_value" min="0" step="0.1" required>
 
