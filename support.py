@@ -1,4 +1,5 @@
 import requests
+import os
 import concurrent.futures 
 
 # UDF to get vehicle make id

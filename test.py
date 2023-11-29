@@ -1,25 +1,28 @@
-# import os
+import os
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request, render_template, redirect, url_for
 import requests
+import re
 import firebase_admin
 from firebase_admin import credentials, firestore
-from support import get_vehicle_make_id, fetch_data
-
+#from support import get_vehicle_make_id, fetch_data
 
 app = Flask(__name__)
 
-cred = credentials.Certificate("/Users/ankuranurag/Desktop/ECS781P_Cloud Computing/mini_project/mini-project-406211-firebase-adminsdk-phfoe-2428e23dfb.json") # your filestore private key location
+# Makes it a little slower when running locally
+r = re.compile(".*firebase*") 
+firebase_cred_file = list(filter(r.match, os.listdir(os.getcwd())))[0]
+cred = credentials.Certificate(f"{str(os.getcwd())}\\{firebase_cred_file}") # your filestore private key location
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
 CARBON_API_BASE_URL = "https://www.carboninterface.com/api/v1"
-# API_KEY = os.environ.get("CARBON_API_KEY")
-
-API_KEY = 'QJLiupy4fP39cvCzJOLZA'## your carbon interface token
-
+load_dotenv()
+API_KEY = os.environ.get("API_KEY")
+"""
 vehicle_make_id = get_vehicle_make_id(CARBON_API_BASE_URL, API_KEY)
-vehicle_details = fetch_data (CARBON_API_BASE_URL, vehicle_make_id, API_KEY)
+vehicle_details = fetch_data (CARBON_API_BASE_URL, vehicle_make_id, API_KEY)"""
 
 
 # to serve the index.html form
@@ -125,9 +128,6 @@ def alldetails():
     
 
     return render_template('alldetails.html', all_results=all_results, show_message=bool(all_results))
-
-
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug =True)
