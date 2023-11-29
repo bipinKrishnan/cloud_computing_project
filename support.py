@@ -10,10 +10,13 @@ def get_vehicle_make_id (CARBON_API_BASE_URL, API_KEY, brand):
         "Content-Type": "application/json",
     }
     response = requests.get(url, headers=headers).json()
+    try:
+        vehicle_make_id = [index["data"]["id"] for index in response if index["data"]["attributes"]["name"] == brand]
+        print("makeID:",vehicle_make_id[0])
+        return(vehicle_make_id[0])
+    except:
+        return "OOPS"
 
-    vehicle_make_id = [index["data"]["id"] for index in response if index["data"]["attributes"]["name"] == brand]
-    print("makeID:",vehicle_make_id[0])
-    return(vehicle_make_id[0])
 
 # UDF to get vehicle model id for a specified model and year given the make/brand
 def get_vehicle_models_id(CARBON_API_BASE_URL,API_KEY,make_id, model_name, model_year):    
@@ -28,10 +31,9 @@ def get_vehicle_models_id(CARBON_API_BASE_URL,API_KEY,make_id, model_name, model
         if model_id:
             return model_id[0]
         print(f"Error fetching data for ID {id}: {e}")
+        return "OOPS"
     except Exception as e:
         print(f"Error fetching data for ID {id}: {e}")
-    
-    return("ZZ") # error out
 
 # UDF to fetch each vehicle model id concurrently
 def fetch_data(CARBON_API_BASE_URL, vehicle_make_id, API_KEY):
