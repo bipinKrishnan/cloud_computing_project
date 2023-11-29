@@ -1,9 +1,13 @@
 import requests
 import os
-import concurrent.futures 
+from dotenv import load_dotenv
+
+CARBON_API_BASE_URL = "https://www.carboninterface.com/api/v1"
+load_dotenv()
+API_KEY = os.environ.get("CARBON_INTERFACE_API_KEY")
 
 # UDF to get vehicle make id for a specified make/brand
-def get_vehicle_make_id (CARBON_API_BASE_URL, API_KEY, brand):
+def get_vehicle_make_id (brand):
     url = f"{CARBON_API_BASE_URL}/vehicle_makes"
     headers = {
         "Authorization": f"Bearer {API_KEY}",
@@ -17,9 +21,8 @@ def get_vehicle_make_id (CARBON_API_BASE_URL, API_KEY, brand):
     except:
         return "OOPS"
 
-
 # UDF to get vehicle model id for a specified model and year given the make/brand
-def get_vehicle_models_id(CARBON_API_BASE_URL,API_KEY,make_id, model_name, model_year):    
+def get_vehicle_models_id(make_id, model_name, model_year):    
     model_url = f"{CARBON_API_BASE_URL}/vehicle_makes/{make_id}/vehicle_models"
     headers = {
         "Authorization": f"Bearer {API_KEY}",
@@ -35,18 +38,23 @@ def get_vehicle_models_id(CARBON_API_BASE_URL,API_KEY,make_id, model_name, model
     except Exception as e:
         print(f"Error fetching data for ID {id}: {e}")
 
-# UDF to fetch each vehicle model id concurrently
-def fetch_data(CARBON_API_BASE_URL, vehicle_make_id, API_KEY):
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures =[]
-        responses =[]
-        
-        for ids in vehicle_make_id:
-            futures.append(executor.submit(get_vehicle_models_id, CARBON_API_BASE_URL, ids, API_KEY))
-        # flatten the result
-        for future in concurrent.futures.as_completed(futures):
-            response = future.result()
-            
-            responses.extend(response)
+# UDF to get emissions given the make/brand, model, year, distance and distance unit
+def fetch_vehicle_emission(params):
+    make_id = get_vehicle_make_id(params["vehicle_make"])
 
-    return responses
+    mod_id = get_vehicle_models_id(make_id,params["vehicle_model"],int(params["year"]))
+
+    data_url = f"{CARBON_API_BASE_URL}/estimates"
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "type": "vehicle",
+        "distance_unit": params["distance_unit"],
+        "distance_value": float(params["distance_value"]),
+        "vehicle_model_id": mod_id
+    }
+
+    response = requests.post(data_url, headers=headers, json=payload)
+    return response

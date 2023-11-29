@@ -1,62 +1,37 @@
 import os
-from dotenv import load_dotenv
 from flask import Flask, jsonify, request, render_template, redirect, url_for
-import requests
 import re
 import firebase_admin
 from firebase_admin import credentials, firestore
-from support import get_vehicle_make_id, get_vehicle_models_id
+from support import get_vehicle_make_id, get_vehicle_models_id, fetch_vehicle_emission
 
 app = Flask(__name__)
 
 # Makes it a little slower when running locally
 r = re.compile(".*firebase*") 
-# locates your filestore private key location
+# locates the first filestore private key location in root
 firebase_cred_file = list(filter(r.match, os.listdir(os.getcwd())))[0]
 cred = credentials.Certificate(f"{str(os.getcwd())}\\{firebase_cred_file}")
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
-CARBON_API_BASE_URL = "https://www.carboninterface.com/api/v1"
-load_dotenv()
-API_KEY = os.environ.get("API_KEY")
-"""
-vehicle_make_id = get_vehicle_make_id(CARBON_API_BASE_URL, API_KEY)
-vehicle_details = fetch_data (CARBON_API_BASE_URL, vehicle_make_id, API_KEY)"""
-
-
 # to serve the index.html form
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 # Endpoint to fetch data from Carbon Interface API and display on HTML page
 @app.route('/fetch_and_display', methods=['POST'])
 def fetch_and_display():
-    makeid = get_vehicle_make_id(CARBON_API_BASE_URL,API_KEY,request.form["vehicle_make"])
-    modid = get_vehicle_models_id(CARBON_API_BASE_URL,API_KEY,makeid,request.form["vehicle_model"],int(request.form["year"]))
 
-    data_url = f"{CARBON_API_BASE_URL}/estimates"
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "type": "vehicle",
-        "distance_unit": request.form["distance_unit"],
-        "distance_value": float(request.form["distance_value"]),
-        "vehicle_model_id": modid
-    }
+    emission_response = fetch_vehicle_emission(request.form)
 
-    response = requests.post(data_url, headers=headers, json=payload)
+    if not emission_response.ok:
+        print("Error in API request:", emission_response.status_code, emission_response.text)
+        return jsonify({"error": "Failed to fetch data from API"}), emission_response.status_code
     
-    if not response.ok:
-        print("Error in API request:", response.status_code, response.text)
-        return jsonify({"error": "Failed to fetch data from API"}), response.status_code
-    
-    result = response.json()
+    result = emission_response.json()
     # Storing data in Firestore
     store_in_firestore(result, request.form["customer_name"])
 
@@ -95,17 +70,13 @@ def alldetails():
 
         if request.form.get('action') == 'View Data':
             # Fetching data for the specific vehicle_model_id when clicked on view details
-            ids_list = vehicle_model_id.split(';')
+            result = db.collection('results').document(vehicle_model_id).get()
 
-            for vehicle_model_id in ids_list:
-                result = db.collection('results').document(vehicle_model_id).get()
-
-                if result.exists:
-                    
-                    all_results.append(result.to_dict())
-                else:
-                    # Data not found, add a message
-                    all_results.append({'message': 'Record not found'})
+            if result.exists:
+                all_results.append(result.to_dict())
+            else:
+                # Data not found, add a message
+                all_results.append({'message': 'Record not found'})
 
         elif request.form.get('action') == 'Delete Data':
             # Add your logic for deleting data based on vehicle_model_id --- Ankur is working on it

@@ -75,6 +75,8 @@ select {
     align-items: baseline;
     flex-direction: column;
 }
+/* yes this most likely isn't the best way to do this,
+but i'll fix it later - Jerry */
 .container_grid {
     display: grid;
     grid-template-columns: 60 110 60 20 90;
@@ -154,8 +156,20 @@ select[id="dist_sel"] {
     grid-row-end: span 1;
 }
 
-
-
 .filler {
     height:12px;
+}
+
+.attribute-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.attribute-value {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.back-button{
+    margin: auto;
 }

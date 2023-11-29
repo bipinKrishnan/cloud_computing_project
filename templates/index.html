@@ -1,17 +1,6 @@
-<!-- index.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="/static/index.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carbon Interface API</title>
-</head>
-<body>
-    <div class="container_v">
-    <form action="/fetch_and_display" method="post" enctype="application/x-www-form-urlencoded">
-        <h1>Carbon Interface API Form</h1>
-
+{% extends 'temp.html' %}
+{% block form_head %}Carbon Interface API Form{% endblock %}
+{% block content %}
         <div class="container_grid">
             <label id="cust_label" for="customer_name">Name :</label>
             <input id="cust_inp" type="text" name="customer_name" required>
@@ -35,11 +24,12 @@
         </div>
         <input type="submit" value="Submit">
     </form>
-    <div class="filler"></div>
+{% endblock %}
+{% block extra %}
     <form action="/alldetails" method="get">
         <input type="submit" value="All Details">
     </form>
-    
+{% endblock %}
     </div>
 </body>
 </html>
