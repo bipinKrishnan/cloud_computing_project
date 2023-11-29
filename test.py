@@ -5,7 +5,7 @@ import requests
 import re
 import firebase_admin
 from firebase_admin import credentials, firestore
-#from support import get_vehicle_make_id, fetch_data
+from support import get_vehicle_make_id, get_vehicle_models_id
 
 app = Flask(__name__)
 
@@ -35,43 +35,33 @@ def index():
 # Endpoint to fetch data from Carbon Interface API and display on HTML page
 @app.route('/fetch_and_display', methods=['POST'])
 def fetch_and_display():
+    makeid = get_vehicle_make_id(CARBON_API_BASE_URL,API_KEY,request.form["vehicle_make"])
+    modid = get_vehicle_models_id(CARBON_API_BASE_URL,API_KEY,makeid,request.form["vehicle_model"],int(request.form["year"]))
+
     data_url = f"{CARBON_API_BASE_URL}/estimates"
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
     }
-    # matching_vehicle = next(
-    #         (vehicle for vehicle in vehicle_details if
-    #          vehicle['vehicle_model'] == request.form["vehicle_model"] and
-    #          vehicle['vehicle_make'] == request.form["vehicle_make"] and
-    #          vehicle['year'] == int(request.form["vehicle_year"]),
-    #         None)
-    # if matching_vehicle:
-    #     matching_id = matching_vehicle['id']
-    # print("Form Data:", request.form)
-    # input payload from the HTML form
     payload = {
         "type": "vehicle",
         "distance_unit": request.form["distance_unit"],
         "distance_value": float(request.form["distance_value"]),
-        "vehicle_model_id": request.form["vehicle_model_id"]
-        # 'vehicle_model_id':matching_id
+        "vehicle_model_id": modid
     }
-    # print("Payload:", payload)
 
     response = requests.post(data_url, headers=headers, json=payload)
     
-    if response.status_code == 201:
-        result = response.json()
-
-        # Storing data in Firestore
-        store_in_firestore(result, request.form["customer_name"])
-
-        # updating the template of result.html with result
-        return render_template('result.html', result=result)
-    else:
+    if not response.ok:
         print("Error in API request:", response.status_code, response.text)
         return jsonify({"error": "Failed to fetch data from API"}), response.status_code
+    
+    result = response.json()
+    # Storing data in Firestore
+    store_in_firestore(result, request.form["customer_name"])
+
+    # updating the template of result.html with result
+    return render_template('result.html', result=result)
 
 # Function to store data in Firestore
 def store_in_firestore(result, cust_name):

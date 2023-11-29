@@ -2,44 +2,36 @@ import requests
 import os
 import concurrent.futures 
 
-# UDF to get vehicle make id
-def get_vehicle_make_id (CARBON_API_BASE_URL, API_KEY):
-
+# UDF to get vehicle make id for a specified make/brand
+def get_vehicle_make_id (CARBON_API_BASE_URL, API_KEY, brand):
     url = f"{CARBON_API_BASE_URL}/vehicle_makes"
-
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json",
     }
-
     response = requests.get(url, headers=headers).json()
 
-    vehicle_make_id = [index["data"]["id"] for index in response]
+    vehicle_make_id = [index["data"]["id"] for index in response if index["data"]["attributes"]["name"] == brand]
+    print("makeID:",vehicle_make_id[0])
+    return(vehicle_make_id[0])
 
-    return(vehicle_make_id)
-
-# UDF to get vehicle model id for each vehicle make id
-def get_vehicle_models_id(CARBON_API_BASE_URL, ids, API_KEY):
-    vehicle_models = []
-    
-    model_url = f"{CARBON_API_BASE_URL}/vehicle_makes/{ids}/vehicle_models"
+# UDF to get vehicle model id for a specified model and year given the make/brand
+def get_vehicle_models_id(CARBON_API_BASE_URL,API_KEY,make_id, model_name, model_year):    
+    model_url = f"{CARBON_API_BASE_URL}/vehicle_makes/{make_id}/vehicle_models"
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json",
     }
     try:
         test = requests.get(model_url, headers=headers).json()
-        for i in test:
-            result= {
-                'id':i["data"]["id"],
-                'vehicle_model':i["data"]["attributes"]["name"],
-                'vehicle_make':i["data"]["attributes"]["vehicle_make"]
-                }
-            vehicle_models.append(result)
+        model_id = [index["data"]["id"] for index in test if index["data"]["attributes"]["name"] == model_name and index["data"]["attributes"]["year"]== model_year]
+        if model_id:
+            return model_id[0]
+        print(f"Error fetching data for ID {id}: {e}")
     except Exception as e:
         print(f"Error fetching data for ID {id}: {e}")
     
-    return(vehicle_models)
+    return("ZZ") # error out
 
 # UDF to fetch each vehicle model id concurrently
 def fetch_data(CARBON_API_BASE_URL, vehicle_make_id, API_KEY):
