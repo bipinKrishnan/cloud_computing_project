@@ -29,7 +29,7 @@ def fetch_and_display():
 
     if not emission_response.ok:
         print("Error in API request:", emission_response.status_code, emission_response.text)
-        return jsonify({"error": "Failed to fetch data from API"}), emission_response.status_code
+        return render_template('result.html', result="", user_name=""), emission_response.status_code
     
     result = emission_response.json()
     # Storing data in Firestore
@@ -72,9 +72,9 @@ def result():
         result = result.to_dict()
     else:
         # Data not found, add a message
-        result = {'message': 'Record not found'}
+        result = ""
     print(result)
-    return render_template('result.html', result=result)
+    return render_template('result.html', result=result, user_name=request.form["user_name"])
 
 @app.route('/del_landing', methods=['GET'])
 def del_land():

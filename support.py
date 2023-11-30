@@ -16,7 +16,6 @@ def get_vehicle_make_id (brand):
     response = requests.get(url, headers=headers).json()
     try:
         vehicle_make_id = [index["data"]["id"] for index in response if index["data"]["attributes"]["name"] == brand]
-        print("makeID:",vehicle_make_id[0])
         return(vehicle_make_id[0])
     except:
         return "OOPS"
