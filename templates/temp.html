@@ -8,8 +8,16 @@
     <title>Carbon Interface API</title>
 </head>
 <body>
+    <ul>
+        <li><a  href="/">Home</a></li>
+        <li><a href="/fetch_landing">Retrieve Data</a></li>
+        <li><a href="/del_landing">Delete Data</a></li>
+    </ul>
+     
     <div class="container_v">
-        <form action="/fetch_and_display" method="post" enctype="application/x-www-form-urlencoded">
+        {% block form_name %}
+        <form  action="/fetch_and_display" method="post" enctype="application/x-www-form-urlencoded">
+        {% endblock %}
             <h1>{% block form_head %}{% endblock %}</h1>
             {% block content %}{% endblock %}
         </form>
