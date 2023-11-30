@@ -1,6 +1,11 @@
 {% extends 'temp.html' %}
 {% block form_head %}Carbon Interface API Result{% endblock %}
 {% block content %}
+{% if not result and not user_name %}
+        <div class="attribute-label">Vehicle of that make/model/year not present :(</div>
+{% elif not result %}
+        <div class="attribute-label">No record under "{{user_name}}" present :(</div>
+{% else %}
         <div class="result-content">
             <div class="result-attributes">
                 <!--
@@ -33,7 +38,7 @@
                 <div class="attribute-value">{{ result["vehicle_year"] }}</div>
             </div>
         </div>
-
+{% endif %}
         <div class="back-button">
             <a href="/">Back to Form</a>
         </div>
