@@ -1,0 +1,15 @@
+{% extends 'temp.html' %}
+{% block form_head %}Retrieve Emission Data{% endblock %}
+{% block form_name %}
+<form action="/result" method="post">
+{% endblock %}
+
+{% block content %}
+
+    <label for="user_name">Username:</label>
+    <input type="text" name="user_name" required>
+    <form action="/result" method="get">
+        <input type="submit" value="Fetch">
+    </form>
+
+{% endblock %}

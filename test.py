@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request, render_template, redirect, url_for
 import re
 import firebase_admin
 from firebase_admin import credentials, firestore
-from support import get_vehicle_make_id, get_vehicle_models_id, fetch_vehicle_emission
+from support import fetch_vehicle_emission
 
 app = Flask(__name__)
 
@@ -34,7 +34,7 @@ def fetch_and_display():
     result = emission_response.json()
     # Storing data in Firestore
     store_in_firestore(result, request.form["customer_name"])
-
+    result = result["data"]["attributes"]
     # updating the template of result.html with result
     return render_template('result.html', result=result)
 
@@ -60,13 +60,41 @@ def store_in_firestore(result, cust_name):
         
     })
 
+@app.route('/fetch_landing', methods=['GET'])
+def fetch_land():
+    return render_template("fetch_landing.html")
+
+@app.route('/result', methods=['POST'])
+def result():
+
+    result = db.collection('results').document(request.form["user_name"]).get()
+    if result.exists:
+        result = result.to_dict()
+    else:
+        # Data not found, add a message
+        result = {'message': 'Record not found'}
+    print(result)
+    return render_template('result.html', result=result)
+
+@app.route('/del_landing', methods=['GET'])
+def del_land():
+    return render_template("delete_landing.html")
+
+@app.route('/delete', methods=['POST'])
+def delete_emission():
+    fetch = db.collection('results').document(request.form["user_name"]).get()
+    db.collection('results').document(request.form["user_name"]).delete()
+
+    return render_template('delete.html', user_name=request.form["user_name"], removed=fetch.exists )
+
+"""
 @app.route('/alldetails', methods=['GET', 'POST'])
 def alldetails():
     all_results = []
 
     if request.method == 'POST':
         # extract vehicle_model_id to be used as primary key
-        vehicle_model_id = request.form['vehicle_model_id']
+        vehicle_model_id = request.form['user_name']
 
         if request.form.get('action') == 'View Data':
             # Fetching data for the specific vehicle_model_id when clicked on view details
@@ -89,7 +117,7 @@ def alldetails():
             all_results = [result.to_dict() for result in results]
     
 
-    return render_template('alldetails.html', all_results=all_results, show_message=bool(all_results))
+    return render_template('result.html', result=all_results)"""
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug =True)

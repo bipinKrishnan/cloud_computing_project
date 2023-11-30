@@ -1,55 +1,30 @@
-<!-- alldetails.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Details</title>
-    
-</head>
-<body>
-    <h1>All Details</h1>
-
+{% extends 'temp.html' %}
+{% block form_head %}All Details{% endblock %}
+{% block content %}
     {% if all_results %}
         <!-- Display all stored results -->
         <ul>
             {% for result in all_results %}
-                {% if result.get('message') %}
-                    <li>{{ result['message'] }}</li>
-                {% else %}
-                    <li>
-                        Vehicle Model ID: {{ result['vehicle_model_id'] }} |
-                        Carbon (g): {{ result['carbon_g'] }} |
-                        Carbon (kg): {{ result['carbon_kg'] }} |
-                        Carbon (lb): {{ result['carbon_lb'] }} |
-                        Carbon (mt): {{ result['carbon_mt'] }} |
-                        Distance Unit: {{ result['distance_unit'] }} |
-                        Distance Value: {{ result['distance_value'] }} |
-                        Estimated At: {{ result['estimated_at'] }} |
-                        Vehicle Make: {{ result['vehicle_make'] }} |
-                        Vehicle Model: {{ result['vehicle_model'] }} |
-                        Vehicle Model ID: {{ result['vehicle_model_id'] }} |
-                        Vehicle Year: {{ result['vehicle_year'] }} |
-
-                    </li>
-                {% endif %}
+                <li>{{result}}</li>
             {% endfor %}
         </ul>
     {% endif %}
 
+
     <!-- Form for viewing and deleting data based on vehicle_model_id -->
     <form action="/alldetails" method="post">
-        <label for="vehicle_model_id">Vehicle Model ID:</label>
-        <input type="text" name="vehicle_model_id" required>
-
-        
+        <label for="user_name">Username:</label>
+        <input type="text" name="user_name" required>
 
         <input type="submit" name="action" value="View Data">
         <input type="submit" name="action" value="Delete Data">
     </form>
-
+{% endblock %}
+{% block extra %}
     <!-- Refresh button to clear the displayed results -->
+{% block form_name %}
     <form action="/alldetails" method="get">
+{% endblock %}
         <input type="submit" value="Refresh">
     </form>
 
@@ -59,6 +34,4 @@
     {% if show_message %}
         <p>No records found</p>
     {% endif %}
-
-</body>
-</html>
+{% endblock %}

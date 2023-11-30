@@ -3,40 +3,39 @@
 {% block content %}
         <div class="result-content">
             <div class="result-attributes">
+                <!--
                 <div class="attribute-label">Carbon (g):</div>
-                <div class="attribute-value">{{ result.data.attributes.carbon_g }}</div>
-
+                <div class="attribute-value">{{ result["carbon_g"] }}</div>
+                -->
                 <div class="attribute-label">Carbon (kg):</div>
-                <div class="attribute-value">{{ result.data.attributes.carbon_kg }}</div>
-
+                <div class="attribute-value">{{ result["carbon_kg"] }}</div>
+                <!--
                 <div class="attribute-label">Carbon (lb):</div>
-                <div class="attribute-value">{{ result.data.attributes.carbon_lb }}</div>
-
-                <div class="attribute-label">Carbon (mt):</div>
-                <div class="attribute-value">{{ result.data.attributes.carbon_mt }}</div>
-
+                <div class="attribute-value">{{ result["carbon_lb"] }}</div>
+                -->  
+                <div class="attribute-label">Carbon (metric tons):</div>
+                <div class="attribute-value">{{ result["carbon_mt"] }}</div>
+                  
                 <div class="attribute-label">Distance :</div>
-                <div class="attribute-value">{{result.data.attributes.distance_value}} {{result.data.attributes.distance_unit }}
+                <div class="attribute-value">{{result["distance_value"]}} {{result["distance_unit"] }}
                 </div>
 
                 <div class="attribute-label">Estimated At:</div>
-                <div class="attribute-value">{{ result.data.attributes.estimated_at }}</div>
+                <div class="attribute-value">{{ result["estimated_at"] }}</div>
 
                 <div class="attribute-label">Vehicle Make:</div>
-                <div class="attribute-value">{{ result.data.attributes.vehicle_make }}</div>
+                <div class="attribute-value">{{ result["vehicle_make"] }}</div>
 
                 <div class="attribute-label">Vehicle Model:</div>
-                <div class="attribute-value">{{ result.data.attributes.vehicle_model }}</div>
+                <div class="attribute-value">{{ result["vehicle_model"] }}</div>
 
                 <div class="attribute-label">Vehicle Year:</div>
-                <div class="attribute-value">{{ result.data.attributes.vehicle_year }}</div>
+                <div class="attribute-value">{{ result["vehicle_year"] }}</div>
             </div>
         </div>
 
         <div class="back-button">
             <a href="/">Back to Form</a>
         </div>
-        {% endblock %}
-    </div>
-</body>
-</html>
+{% endblock %}
+

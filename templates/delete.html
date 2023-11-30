@@ -1,0 +1,20 @@
+{% extends 'temp.html' %}
+{% block form_head %}Carbon Interface API Result{% endblock %}
+{% block form_name %}
+<form action="/delete" method="post">
+{% endblock %}
+{% block content %}
+        <div class="result-content">
+            <div class="result-attributes">
+                {% if removed %}
+                <div class="attribute-label">Record "{{ user_name }}" has been removed :)</div>
+                {% else %}
+                <div class="attribute-label">Record "{{ user_name }}" was not found :(</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="back-button">
+            <a href="/" class="button">Back Home</a>
+        </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'temp.html' %}
+{% block form_head %}Delete Emission Data{% endblock %}
+{% block form_name %}
+<form action="/delete" method="post">
+{% endblock %}
+
+{% block content %}
+
+    <label for="user_name">Username:</label>
+    <input type="text" name="user_name" required>
+    <form action="/delete" method="get">
+        <input type="submit" value="Delete">
+    </form>
+
+{% endblock %}
