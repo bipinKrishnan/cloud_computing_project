@@ -11,7 +11,7 @@ app = Flask(__name__)
 r = re.compile(".*firebase*") 
 # locates the first filestore private key location in root
 firebase_cred_file = list(filter(r.match, os.listdir(os.getcwd())))[0]
-cred = credentials.Certificate(f"{str(os.getcwd())}\\{firebase_cred_file}")
+cred = credentials.Certificate(os.path.join(os.getcwd(), firebase_cred_file))
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
