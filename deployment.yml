@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carbon-app
+  labels:
+    app: carb-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: carb-app
+  template:
+    metadata:
+      labels:
+        app: carb-app
+    spec:
+      containers:
+      - name: carbon-app-image
+        image: gcr.io/burnished-flare-400911/carbon-app-image
+        ports:
+        - containerPort: 8000
