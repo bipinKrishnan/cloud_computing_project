@@ -7,16 +7,11 @@
 - [System Architecture](#system-architecture)
 - [Application Overview](#application-overview)
 - [Application Architecture](#application-architecture)
-	 - [Flask App](#flask-app)
-	 - [RESTful-API](#restful-api)
-	 - [CRUD Operations](#crud-operations)
-	 - [External APIs Used](#external-apis-used)
-	 	- [Carbon Interface API](#carbon-interface-api)
 - [Cloud Infrastructure](#cloud-infrastructure)
     - [Google Cloud](#google-cloud)
-    - [Cloud Firestore](#cloud-datastore)
-	  - [Kubernetes](#kubernetes)
-	  - [Docker](#docker)
+    - [Cloud Firestore](#cloud-firestore)
+    - [Kubernetes](#kubernetes)
+    - [Docker](#docker)
 
 
 
@@ -110,16 +105,6 @@ File Structure of the project is given below
 ```
 $ python main.py
 ```
-### Run flask for production
-
-
-```
-$ gunicorn -w 4 -b 127.0.0.1:5000 run:app
-
-```
-
-* -w : number of worker
-* -b : Socket to bind
 
 
 ### Run with Docker
@@ -287,88 +272,71 @@ After clicking the analyse button the report(s) are generated for the same.
 The Carbon Interface API provides details on the activity that is emitting carbon. The estimates API uses the most accurate estimation methodology to get the CO2 emissions.
 
 
-#### Cloud Datastore
+#### Cloud Firestore
 
-Why Google Cloud Datastore?
 
-Datastore is a highly scalable NoSQL database. Datastore automatically handles sharding and replication, providing the application with a highly available and durable database that scales automatically to handle incoming load. Datastore provides a myriad of capabilities such as ACID transactions, SQL-like queries, indexes, and much more.
+Cloud Firestore is a NoSQL document database that simplifies storing, syncing, and querying data for your mobile and web apps at global scale. Its client libraries provide live synchronization and offline support, while its security features and integrations with the Firebase and Google Cloud platforms accelerate building truly serverless apps
 
--   Product catalogs that provide real-time inventory and product details for a retailer.
--   User profiles that deliver a customised experience based on the user’s past activities and preferences.
--   Transactions based on ACID properties, for example, transferring funds from one bank account to another.
 
-Datastore features include:
 
--   **Atomic transactions**. Datastore can execute a set of operations where either all succeed, or none occur.
--   **High availability of reads and writes**. Datastore runs in Google data centres, which use redundancy to minimize impact from points of failure.
--   **Massive scalability with high performance**. Datastore uses a distributed architecture to automatically manage scaling. Datastore uses a mix of indexes and query constraints so your queries scale with the size of your result set, not the size of your data set.
--   **Flexible storage and querying of data**. Datastore maps naturally to object-oriented and scripting languages, and is exposed to applications through multiple clients. It also provides a SQL-like query language.
+Firestore features include:
+
+-   **Serverless**. Fully managed, serverless database that effortlessly scales up or down to meet any demand, with no maintenance windows or downtime.
+-   **Powerful Query Engine**. Firestore allows you to run sophisticated ACID transactions against your document data. This gives you more flexibility in the way you structure your data.
+-   **Security**. Firestore seamlessly integrates with Firebase Authentication and Identity Platform, to enable customizable identity-based security access controls and enables data validation via a configuration language.
+-   **Datastore mode**. Firestore supports the Datastore API. You won't need to make any changes to your existing Datastore apps, and you can expect the same performance characteristics and pricing with the added benefit of strong consistency.
 -   **Balance of strong and eventual consistency**. Datastore ensures that entity lookups by key and ancestor queries always receive strongly consistent data. All other queries are eventually consistent. The consistency models allow your application to deliver a great user experience while handling large amounts of data and users.    
 -   **Encryption at rest**. Datastore automatically encrypts all data before it is written to disk and automatically decrypts the data when read by an authorised user. For more information, see Server-Side Encryption.
 -   **Fully managed with no planned downtime**. Google handles the administration of the Datastore service so you can focus on your application. Your application can still use Datastore when the service receives a planned upgrade.
 
 ### Kubernetes
 
-Kubernetes is a portable, extensible, open source platform for managing containerised workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
-
-Kubernetes, at its basic level, is a system for running and coordinating containerised applications across a cluster of machines. It is a platform designed to completely manage the life cycle of containerised applications and services using methods that provide predictability, scalability, and high availability.
-
-Kubernetes allows users to run scalable, highly available containerised workloads on a highly abstracted platform. While Kubernetes’ architecture and set of internal components can at first seem daunting, their power, flexibility, and robust feature set are unparalleled in the open-source world.
-
+Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications.
 **service.yaml** contains Kubernetes load-balancer configuration for the project.
 
 ```yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: text-analyer
+  name: app-load-balancer
 spec:
   type: LoadBalancer
   selector:
-    app: text-analyer
+    app: carb-app
   ports:
-    - port: 80
-      targetPort: 8082
+    - port: 8000	  
  ```
 
 **deployment.yaml** contains Kubernetes nodes and replicas configuration for the project.
 
-```yaml
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: text-analyer
+  name: carbon-app
   labels:
-    name: text-analyer
+    app: carb-app
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      name: text-analyer
+      app: carb-app
   template:
     metadata:
-      name: text-analyer
       labels:
-        name: text-analyer
+        app: carb-app
     spec:
       containers:
-        - name: text-analyer
-          image: gcr.io/eminent-enigma-364712/text-analyser:v1.0
-          ports:
-            - containerPort: 8082
+      - name: carbon-app-image
+        image: gcr.io/burnished-flare-400911/carbon-app-image
+        ports:
+        - containerPort: 8000
   ```
 
 ### Docker
 
-Docker is an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly. With Docker, you can manage your infrastructure in the same ways you manage your applications. By taking advantage of Docker’s methodologies for shipping, testing, and deploying code quickly, you can significantly reduce the delay between writing code and running it in production.
+Docker is an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly. With Docker, you can manage your infrastructure in the same ways you manage your applications. By taking advantage of Docker's methodologies for shipping, testing, and deploying code, you can significantly reduce the delay between writing code and running it in production.
 
-Docker provides the ability to package and run an application in a loosely isolated environment called a container. The isolation and security allows you to run many containers simultaneously on a given host. Containers are lightweight and contain everything needed to run the application, so you do not need to rely on what is currently installed on the host. You can easily share containers while you work, and be sure that everyone you share with gets the same container that works in the same way.
-
-Docker provides tooling and a platform to manage the lifecycle of your containers:
-
--   Develop your application and its supporting components using containers.
--   The container becomes the unit for distributing and testing your application.
--   When you’re ready, deploy your application into your production environment, as a container or an orchestrated service. This works the same whether your production environment is a local data centre, a cloud provider, or a hybrid of the two.
 
 
 
