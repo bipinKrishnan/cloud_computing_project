@@ -122,7 +122,7 @@ The user interface provides an intuitive and responsive experience. It communica
 
 ## System Architecture
 
-![alt img](assets/sys_architecture.jpeg)
+![alt img](assets/Screenshot 2023-12-05 125812.png)
 
 ## Application Overview
 
