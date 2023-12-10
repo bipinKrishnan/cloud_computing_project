@@ -87,37 +87,6 @@ def delete_emission():
 
     return render_template('delete.html', user_name=request.form["user_name"], removed=fetch.exists )
 
-"""
-@app.route('/alldetails', methods=['GET', 'POST'])
-def alldetails():
-    all_results = []
-
-    if request.method == 'POST':
-        # extract vehicle_model_id to be used as primary key
-        vehicle_model_id = request.form['user_name']
-
-        if request.form.get('action') == 'View Data':
-            # Fetching data for the specific vehicle_model_id when clicked on view details
-            result = db.collection('results').document(vehicle_model_id).get()
-
-            if result.exists:
-                all_results.append(result.to_dict())
-            else:
-                # Data not found, add a message
-                all_results.append({'message': 'Record not found'})
-
-        elif request.form.get('action') == 'Delete Data':
-            # Add your logic for deleting data based on vehicle_model_id --- Ankur is working on it
-            # ...
-
-            # just written the structure
-            results = db.collection('results').stream()
-
-            # Creating a list to store the data for rendering in the template
-            all_results = [result.to_dict() for result in results]
-    
-
-    return render_template('result.html', result=all_results)"""
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug =True)
