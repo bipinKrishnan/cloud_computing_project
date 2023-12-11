@@ -4,6 +4,8 @@ import re
 import firebase_admin
 from firebase_admin import credentials, firestore
 from support import fetch_vehicle_emission
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 app = Flask(__name__)
 
@@ -86,6 +88,46 @@ def delete_emission():
     db.collection('results').document(request.form["user_name"]).delete()
 
     return render_template('delete.html', user_name=request.form["user_name"], removed=fetch.exists )
+
+
+# Route to view plots
+@app.route('/view_plots', methods=['GET'])
+def view_plots():
+    # Retrieve data from Firestore
+    results = db.collection('results').stream()
+    data = [result.to_dict() for result in results]
+
+    # Check if data is empty
+    if not data:
+        # Render a template with a message for no data found
+        return render_template('no_data_found.html')
+
+    # Extract data for plotting
+    carbon_kg = [entry.get('carbon_kg', 0) for entry in data]
+    carbon_mt = [entry.get('carbon_mt', 0) for entry in data]
+    vehicle_make = [entry.get('vehicle_make', 'Unknown') for entry in data]
+    carbon_g = [entry.get('carbon_g', 0) for entry in data]
+
+    # Create a subplot with two scatter plots and one bar chart
+    fig = make_subplots(rows=1, cols=3, subplot_titles=['Carbon (kg)', 'Carbon (metric tons)', 'Carbon (grams)'])
+
+    # Add bar chart for carbon_g
+    fig.add_trace(go.Bar(x=vehicle_make, y=carbon_g, name='Carbon (g)'), row=1, col=1)
+
+    fig.add_trace(go.Bar(x=vehicle_make, y=carbon_kg, name='Carbon (kg)'), row=1, col=2)
+
+    fig.add_trace(go.Bar(x=vehicle_make, y=carbon_mt, name='Carbon (mt)'), row=1, col=3)
+
+     
+
+    # Update layout
+    fig.update_layout(title_text='Carbon Emission Plots', showlegend=True, template='plotly_dark')
+
+    # Convert the plot to HTML
+    plot_html = fig.to_html(full_html=False)
+
+    return render_template('view_plots.html', plot_html=plot_html)
+
 
 
 if __name__ == '__main__':
