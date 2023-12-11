@@ -90,7 +90,7 @@ The user interface provides an intuitive and responsive experience. It communica
 
 ## System Architecture
 
-![alt img](assets/System_architecture.png)
+![alt img](assets/System_architecture_updated.png)
 
 ## Application Overview
 
