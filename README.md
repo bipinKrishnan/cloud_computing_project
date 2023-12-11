@@ -10,8 +10,8 @@
 - [Cloud Infrastructure](#cloud-infrastructure)
     - [Google Cloud](#google-cloud)
     - [Cloud Firestore](#cloud-firestore)
-    - [Kubernetes](#kubernetes)
-    - [Docker](#docker)
+- [Kubernetes](#kubernetes)
+- [Docker](#docker)
 
 
 
@@ -119,6 +119,23 @@ After submitting the information the results are displayed and stored in the for
 
 
 ## Application Architecture
+
+### RESTful-API
+
+A REST API (also known as RESTful API) is an application programming interface (API or web API) that conforms to the constraints of REST architectural style and allows for interaction with RESTful web services. REST stands for representational state transfer and was created by computer scientist Roy Fielding.
+Specifically designed for Flask, Flask-RESTful is an extension that simplifies the rapid development of REST APIs. Acting as a lightweight abstraction, it seamlessly integrates with your existing Object-Relational Mapping (ORM) or libraries. Flask-RESTful promotes best practices and requires minimal setup, making it easily accessible for those already familiar with Flask.
+
+### CRUD Operations 
+
+CRUD stands for Create, Read, Update, and Delete. These are the fundamental operations that can be performed on data in a persistent storage system, such as a database
+
+The four main HTTP methods that perform CRUD operations are as follows:
+
+-   GET: Used to read/retrieve data from a web server and returns an HTTP status code of 200 (OK) if the data is successfully retrieved from the server.
+-   PUT: Used to modify the data on the server. Replaces the entire content at a particular location with data that is passed in the body payload.
+-   POST: Used to send data to the server. On successful creation, it returns an HTTP status code of 201.
+-   DELETE: Used to delete the data on the server at a specified location.
+
 
 ### Step 1 — Creating the test.py file: This file is used for creation of the flask app and running of the application.
   -  Intializing the database and setting configuration values using firebase_admin 
@@ -236,9 +253,23 @@ After submitting the information the results are displayed and stored in the for
 
 The Carbon Interface API provides details on the activity that is emitting carbon. The estimates API uses the most accurate estimation methodology to get the CO2 emissions.
 
+## Cloud Infrastructure
+
+Cloud infrastructure peforms similar to a traditional physical infrastructure but it also offers benefits such as reduced ownership costs, heightened flexibility, and scalability.
+
+Cloud computing is commonly categorized into three service models:
+
+-Infrastructure as a Service (IaaS): Provides virtualized computing resources over the internet. Users can rent virtual machines, storage, and networks.
+
+-Platform as a Service (PaaS): Offers a platform allowing customers to develop, run, and manage applications without dealing with the complexities of infrastructure.
+
+-Software as a Service (SaaS): Delivers software applications over the internet on a subscription basis. Users can access the software without worrying about the underlying infrastructure.
+
+### Google Cloud
+
+GCP provides customers with highly specialized services in three key domains: big data, machine learning, and analytics. It boasts robust scalability, stable load balancing, and renowned low response times. Notably, Google's container offering stands out, providing users a significant advantage, as it originated the Kubernetes standard, now widely adopted by competitors AWS and Azure.
 
 #### Cloud Firestore
-
 
 Cloud Firestore is a NoSQL document database that simplifies storing, syncing, and querying data for your mobile and web apps at global scale. Its client libraries provide live synchronization and offline support, while its security features and integrations with the Firebase and Google Cloud platforms accelerate building truly serverless apps
 
@@ -253,7 +284,8 @@ Firestore features include:
 
 ### Kubernetes
 
-Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications.
+Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications. It serves as a system designed to execute and coordinate containerized applications across a cluster of machines. Functioning as a comprehensive platform, it oversees the entire life cycle of containerized applications and services, employing methods that ensure predictability, scalability, and high availability.
+
 **service.yaml** contains Kubernetes load-balancer configuration for the project.
 
 ```yaml
