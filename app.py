@@ -105,27 +105,76 @@ def view_plots():
     carbon_kg = [entry.get('carbon_kg', 0) for entry in data]
     carbon_mt = [entry.get('carbon_mt', 0) for entry in data]
     vehicle_make = [entry.get('vehicle_make', 'Unknown') for entry in data]
+    vehicle_model = [entry.get('vehicle_model', 'Unknown') for entry in data]
     carbon_g = [entry.get('carbon_g', 0) for entry in data]
 
-    # Create a subplot with two scatter plots and one bar chart
-    fig = make_subplots(rows=1, cols=3, subplot_titles=['Carbon (kg)', 'Carbon (metric tons)', 'Carbon (grams)'])
+    bar_fig = make_subplots(rows=2, cols=3, subplot_titles=['Carbon (kg)', 'Carbon (metric tons)', 'Carbon (grams)'],specs=[
+    [{"type": "bar"}, {"type": "bar"}, {"type": "bar"}],
+    [{"type": "pie"}, {"type": "pie"}, {"type": "pie"}]
+])
 
-    # Add bar chart for carbon_g
-    fig.add_trace(go.Bar(x=vehicle_make, y=carbon_g, name='Carbon (g)'), row=1, col=1)
+    make_fig = make_subplots(rows=2, cols=3, subplot_titles=['Carbon (kg)', 'Carbon (metric tons)', 'Carbon (grams)'],specs=[
+    [{"type": "bar"}, {"type": "bar"}, {"type": "bar"}],
+    [{"type": "pie"}, {"type": "pie"}, {"type": "pie"}]
+])
+    # Extract data for plotting
+    carbon_kg = [entry.get('carbon_kg', 0) for entry in data]
+    carbon_mt = [entry.get('carbon_mt', 0) for entry in data]
+    carbon_g = [entry.get('carbon_g', 0) for entry in data]
+    vehicle_model = [entry.get('vehicle_model', 'Unknown') for entry in data]
+    vehicle_make = [entry.get('vehicle_make', 'Unknown') for entry in data]
 
-    fig.add_trace(go.Bar(x=vehicle_make, y=carbon_kg, name='Carbon (kg)'), row=1, col=2)
+    # Add traces for bar chart
+    bar_fig.add_trace(go.Bar(x=vehicle_model, y=carbon_g, name='Carbon (g)'), row=1, col=1)
+    bar_fig.add_trace(go.Bar(x=vehicle_model, y=carbon_kg, name='Carbon (kg)'), row=1, col=2)
+    bar_fig.add_trace(go.Bar(x=vehicle_model, y=carbon_mt, name='Carbon (mt)'), row=1, col=3)
 
-    fig.add_trace(go.Bar(x=vehicle_make, y=carbon_mt, name='Carbon (mt)'), row=1, col=3)
+    make_fig.add_trace(go.Bar(x=vehicle_make, y=carbon_g, name='Carbon (g)'), row=1, col=1)
+    make_fig.add_trace(go.Bar(x=vehicle_make, y=carbon_kg, name='Carbon (kg)'), row=1, col=2)
+    make_fig.add_trace(go.Bar(x=vehicle_make, y=carbon_mt, name='Carbon (mt)'), row=1, col=3)
 
-     
+    vehicle_model_labels = list(set(vehicle_model))
+    vehicle_model_values_kg = [sum(carbon_kg[i] for i, model in enumerate(vehicle_model) if model == label) for label in vehicle_model_labels]
+    vehicle_model_values_g = [sum(carbon_g[i] for i, model in enumerate(vehicle_model) if model == label) for label in vehicle_model_labels]
+    vehicle_model_values_mt = [sum(carbon_mt[i] for i, model in enumerate(vehicle_model) if model == label) for label in vehicle_model_labels]
 
-    # Update layout
-    fig.update_layout(title_text='Carbon Emission Plots', showlegend=True, template='plotly_dark')
+    bar_fig.add_trace(go.Pie(labels=vehicle_model_labels, values=vehicle_model_values_g, name='Carbon by Vehicle Model'),row=2,col=1)
+    bar_fig.add_trace(go.Pie(labels=vehicle_model_labels, values=vehicle_model_values_kg, name='Carbon by Vehicle Model'),row=2,col=2)
+    bar_fig.add_trace(go.Pie(labels=vehicle_model_labels, values=vehicle_model_values_mt, name='Carbon by Vehicle Model'),row=2,col=3)
 
-    # Convert the plot to HTML
-    plot_html = fig.to_html(full_html=False)
+    vehicle_make_labels = list(set(vehicle_make))
+    vehicle_make_values_kg = [sum(carbon_kg[i] for i, make in enumerate(vehicle_make) if make == label) for label in vehicle_make_labels]
+    vehicle_make_values_g = [sum(carbon_g[i] for i, make in enumerate(vehicle_make) if make == label) for label in vehicle_make_labels]
+    vehicle_make_values_mt = [sum(carbon_mt[i] for i, make in enumerate(vehicle_make) if make == label) for label in vehicle_make_labels]
+    
+    make_fig.add_trace(go.Pie(labels=vehicle_make_labels, values=vehicle_make_values_g, name='Carbon by Vehicle Make'),row=2,col=1)
+    make_fig.add_trace(go.Pie(labels=vehicle_make_labels, values=vehicle_make_values_kg, name='Carbon by Vehicle Make'),row=2,col=2)
+    make_fig.add_trace(go.Pie(labels=vehicle_make_labels, values=vehicle_make_values_mt, name='Carbon by Vehicle Make'),row=2,col=3)
 
-    return render_template('view_plots.html', plot_html=plot_html)
+
+    bar_fig.update_layout(
+        title_text='Carbon Emission [g kg mt] (vs.) Vehicle Model - Plots ',
+        showlegend=True,
+        template='plotly_dark',
+        height=450,
+        width=890,
+    )
+
+
+    make_fig.update_layout(
+        title_text='Carbon Emission [g kg mt] (vs.) Vehicle Make - Plots ',
+        showlegend=True,
+        template='plotly_dark',
+        height=274,
+        width=890,
+    
+    )
+
+    
+    bar_html = bar_fig.to_html(full_html=False),
+    make_html = make_fig.to_html(full_html=False)
+
+    return render_template('view_plots.html', bar_html=bar_html, make_html=make_html)
 
 
 
