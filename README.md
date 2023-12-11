@@ -71,7 +71,7 @@ File Structure of the project is given below
 
 ### Run flask for development
 ```
-$ python test.py
+$ python app.py
 ```
 
 
@@ -139,7 +139,7 @@ After submitting the information the results are displayed and stored in the for
 
 ### Retreiving an invalid record
 
-![alt img](assets/Retreive_Invalid_Record.pngg)
+![alt img](assets/Retreive_Invalid_Record.png)
 
 
 
@@ -162,7 +162,7 @@ The four main HTTP methods that perform CRUD operations are as follows:
 -   DELETE: Used to delete the data on the server at a specified location.
 
 
-### Step 1 — Creating the test.py file: This file is used for creation of the flask app and running of the application.
+### Step 1 — Creating the app.py file: This file is used for creation of the flask app and running of the application.
   -  Intializing the database and setting configuration values using firebase_admin 
 
   - Following routes have been added
