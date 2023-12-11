@@ -1,0 +1,16 @@
+<!-- no_data_found.html -->
+
+{% extends 'temp.html' %}
+
+{% block form_name %}
+    <form action="/view_plots" method="get">
+{% endblock %}
+
+{% block content %}
+    <h1 style="text-align: center;">No Data Found</h1>
+    <p style="text-align: center;">There is no carbon emission data available.</p>
+{% endblock %}
+
+{% block extra %}
+    <!-- Add extra content if needed -->
+{% endblock %}

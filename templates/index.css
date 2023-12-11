@@ -185,3 +185,7 @@ select[id="dist_sel"] {
 .filler {
     height:12px;
 }
+
+.plotly {
+    color: grey;
+}

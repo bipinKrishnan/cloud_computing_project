@@ -1,0 +1,17 @@
+<!-- view_plots.html -->
+
+{% extends 'temp.html' %}
+
+{% block form_name %}
+    <form action="/view_plots" method="get">
+{% endblock %}
+
+{% block content %}
+    <h1 style="text-align: center;">Carbon Emission Plots</h1>
+{% endblock %}
+
+{% block extra %}
+    <div>
+        {{ plot_html | safe }}
+    </div>
+{% endblock %}
