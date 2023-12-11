@@ -75,8 +75,7 @@ def result():
     else:
         # Data not found, add a message
         result = ""
-    print(result)
-    return render_template('result.html', result=result, user_name=request.form["user_name"])
+    return render_template('result.html', result=result, user_name=request.form["user_name"]), 200 if result else 404
 
 @app.route('/del_landing', methods=['GET'])
 def del_land():
@@ -87,7 +86,7 @@ def delete_emission():
     fetch = db.collection('results').document(request.form["user_name"]).get()
     db.collection('results').document(request.form["user_name"]).delete()
 
-    return render_template('delete.html', user_name=request.form["user_name"], removed=fetch.exists )
+    return render_template('delete.html', user_name=request.form["user_name"], removed=fetch.exists ), 200 if fetch.exists else 404
 
 
 # Route to view plots
