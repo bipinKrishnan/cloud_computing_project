@@ -24,11 +24,11 @@ In today's world, climate change has become a major problem, and it has been obs
 
 Some familiarity with the below mentioned concepts:
 - [Python 3.10]
-- [Google Cloud Platform]()
-- [Cloud Firestore]()
-- [Carbon Interface API]()
-- [Kubernetes]()
-- [Docker]()
+- [Google Cloud Platform](#google-cloud)
+- [Cloud Firestore](#cloud-firestore)
+- [Carbon Interface API](#carbon-interface-API)
+- [Kubernetes](#kubernetes)
+- [Docker](#docker)
 
 
 ## Installation
@@ -60,7 +60,7 @@ Some familiarity with the below mentioned concepts:
 	```
 6. Run the application locally
 	```sh
-	python test.py
+	python app.py
 	```
 
 ### File Structure 
@@ -96,7 +96,7 @@ The user interface provides an intuitive and responsive experience. It communica
 
 
 ### Main Page
-This will be the main page, where user will input the details of the vehicle including name, brand, model, year, distance travelled
+This will be the main page, where user will input the details of the vehicle including name, brand, model, year, distance traveled
 
 ![alt img](assets/Home_Page.png)
 
@@ -115,6 +115,31 @@ After submitting the information the results are displayed and stored in the for
 ### Deleting a Record
 
 ![alt img](assets/Delete_Result.png)
+
+### View Plots
+
+#### Graphs for 2 Records
+
+![alt img](assets/Plots_2Data_inDB.png)
+
+#### Graphs for Multiple Records
+
+![alt img](assets/Plots_MultipleData.png)
+
+
+#### Graphs for Single Records
+
+![alt img](assets/Plots_singleData.png)
+
+
+#### Graphs when no record exist
+
+![alt img](assets/Plots_zeroDatainDB.png)
+
+
+### Retreiving an invalid record
+
+![alt img](assets/Retreive_Invalid_Record.pngg)
 
 
 
@@ -141,12 +166,12 @@ The four main HTTP methods that perform CRUD operations are as follows:
   -  Intializing the database and setting configuration values using firebase_admin 
 
   - Following routes have been added
-      - [Home Page](/)   
-      - [Fetch and Display Page](/fetch_and_display): Responsible for fetching carbon emission details of a vehicle 
-      - [Fetch Landing Page](/fetch_landing)
-      - [Result Page](/result) : Shows the actual results values obtained
-      - [Delete Landing Page](/del_landing)
-      - [Delete Page](/delete) : Given the username, it deletes the vehicle details from the database
+      - Home Page(/)   
+      - Fetch and Display Page(/fetch_and_display): Responsible for fetching carbon emission details of a vehicle 
+      - Fetch Landing Page(/fetch_landing)
+      - Result Page(/result) : Shows the actual results values obtained
+      - Delete Landing Page(/del_landing)
+      - Delete Page(/delete) : Given the username, it deletes the vehicle details from the database
 
 
 ### Step 2 — Creating the support.py file: This file is used for calling the Carbon Interface APIs.
@@ -284,7 +309,7 @@ Firestore features include:
 
 ### Kubernetes
 
-Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications. It serves as a system designed to execute and coordinate containerized applications across a cluster of machines. Functioning as a comprehensive platform, it oversees the entire life cycle of containerized applications and services, employing methods that ensure predictability, scalability, and high availability.
+Kubernetes (also known as k8s or “kube”) is an open source container orchestration platform that automates many of the manual processes involved in deploying, managing, and scaling containerized applications.. It serves as a system designed to execute and coordinate containerized applications across a cluster of machines. Functioning as a comprehensive platform, it oversees the entire life cycle of containerized applications and services, employing methods that ensure predictability, scalability, and high availability.
 
 **service.yaml** contains Kubernetes load-balancer configuration for the project.
 
