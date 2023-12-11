@@ -62,10 +62,12 @@ def store_in_firestore(result, cust_name):
         
     })
 
+# Route for retrieve landing, to enter what to retrieve
 @app.route('/fetch_landing', methods=['GET'])
 def fetch_land():
     return render_template("fetch_landing.html")
 
+# Route for the result page, used by fetch_landing and the home page
 @app.route('/result', methods=['POST'])
 def result():
 
@@ -77,10 +79,12 @@ def result():
         result = ""
     return render_template('result.html', result=result, user_name=request.form["user_name"]), 200 if result else 404
 
+# Route for delete landing, to enter what to delete
 @app.route('/del_landing', methods=['GET'])
 def del_land():
     return render_template("delete_landing.html")
 
+# Route to delete a record
 @app.route('/delete', methods=['POST'])
 def delete_emission():
     fetch = db.collection('results').document(request.form["user_name"]).get()
