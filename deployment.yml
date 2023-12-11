@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: carbon-app-image
-        image: gcr.io/burnished-flare-400911/carbon-app-image
+        image: gcr.io/mini-project-406211/carbon-app-image
         ports:
         - containerPort: 8000
