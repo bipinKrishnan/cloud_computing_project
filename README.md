@@ -147,8 +147,8 @@ After submitting the information the results are displayed and stored in the for
 
 ### RESTful-API
 
-A REST API (also known as RESTful API) is an application programming interface (API or web API) that conforms to the constraints of REST architectural style and allows for interaction with RESTful web services. REST stands for representational state transfer and was created by computer scientist Roy Fielding.
-Specifically designed for Flask, Flask-RESTful is an extension that simplifies the rapid development of REST APIs. Acting as a lightweight abstraction, it seamlessly integrates with your existing Object-Relational Mapping (ORM) or libraries. Flask-RESTful promotes best practices and requires minimal setup, making it easily accessible for those already familiar with Flask.
+Representational State Transfer (REST) is an architectural style that defines a set of constraints to be used for creating web services. REST API is a way of accessing web services in a simple and flexible way without having any processing. REST API is stateless, which means that each request contains all the necessary information to complete the request. This allows for scalability and reduces the load on the server.
+Flask Restful is an extension for Flask that adds support for building REST APIs in Python using Flask as the back-end. Acting as a lightweight abstraction, it seamlessly integrates with your existing Object-Relational Mapping (ORM) or libraries. Flask-RESTful promotes best practices and requires minimal setup, making it easily accessible for those already familiar with Flask.
 
 ### CRUD Operations 
 
