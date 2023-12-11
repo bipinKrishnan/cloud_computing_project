@@ -24,11 +24,11 @@ In today's world, climate change has become a major problem, and it has been obs
 
 Some familiarity with the below mentioned concepts:
 - [Python 3.10]
-- [Google Cloud Platform]()
-- [Cloud Firestore]()
-- [Carbon Interface API]()
-- [Kubernetes]()
-- [Docker]()
+- [Google Cloud Platform](#google-cloud)
+- [Cloud Firestore](#cloud-firestore)
+- [Carbon Interface API](#carbon-interface-API)
+- [Kubernetes](#kubernetes)
+- [Docker](#docker)
 
 
 ## Installation
@@ -60,7 +60,7 @@ Some familiarity with the below mentioned concepts:
 	```
 6. Run the application locally
 	```sh
-	python test.py
+	python app.py
 	```
 
 ### File Structure 
@@ -71,7 +71,7 @@ File Structure of the project is given below
 
 ### Run flask for development
 ```
-$ python test.py
+$ python app.py
 ```
 
 
@@ -96,7 +96,7 @@ The user interface provides an intuitive and responsive experience. It communica
 
 
 ### Main Page
-This will be the main page, where user will input the details of the vehicle including name, brand, model, year, distance travelled
+This will be the main page, where user will input the details of the vehicle including name, brand, model, year, distance traveled
 
 ![alt img](assets/Home_Page.png)
 
@@ -116,14 +116,39 @@ After submitting the information the results are displayed and stored in the for
 
 ![alt img](assets/Delete_Result.png)
 
+### View Plots
+
+#### Graphs for 2 Records
+
+![alt img](assets/Plots_2Data_inDB.png)
+
+#### Graphs for Multiple Records
+
+![alt img](assets/Plots_MultipleData.png)
+
+
+#### Graphs for Single Records
+
+![alt img](assets/Plots_singleData.png)
+
+
+#### Graphs when no record exist
+
+![alt img](assets/Plots_zeroDatainDB.png)
+
+
+### Retreiving an invalid record
+
+![alt img](assets/Retreive_Invalid_Record.png)
+
 
 
 ## Application Architecture
 
 ### RESTful-API
 
-A REST API (also known as RESTful API) is an application programming interface (API or web API) that conforms to the constraints of REST architectural style and allows for interaction with RESTful web services. REST stands for representational state transfer and was created by computer scientist Roy Fielding.
-Specifically designed for Flask, Flask-RESTful is an extension that simplifies the rapid development of REST APIs. Acting as a lightweight abstraction, it seamlessly integrates with your existing Object-Relational Mapping (ORM) or libraries. Flask-RESTful promotes best practices and requires minimal setup, making it easily accessible for those already familiar with Flask.
+Representational State Transfer (REST) is an architectural style that defines a set of constraints to be used for creating web services. REST API is a way of accessing web services in a simple and flexible way without having any processing. REST API is stateless, which means that each request contains all the necessary information to complete the request. This allows for scalability and reduces the load on the server.
+Flask Restful is an extension for Flask that adds support for building REST APIs in Python using Flask as the back-end. Acting as a lightweight abstraction, it seamlessly integrates with your existing Object-Relational Mapping (ORM) or libraries. Flask-RESTful promotes best practices and requires minimal setup, making it easily accessible for those already familiar with Flask.
 
 ### CRUD Operations 
 
@@ -137,16 +162,16 @@ The four main HTTP methods that perform CRUD operations are as follows:
 -   DELETE: Used to delete the data on the server at a specified location.
 
 
-### Step 1 — Creating the test.py file: This file is used for creation of the flask app and running of the application.
+### Step 1 — Creating the app.py file: This file is used for creation of the flask app and running of the application.
   -  Intializing the database and setting configuration values using firebase_admin 
 
   - Following routes have been added
-      - [Home Page](/)   
-      - [Fetch and Display Page](/fetch_and_display): Responsible for fetching carbon emission details of a vehicle 
-      - [Fetch Landing Page](/fetch_landing)
-      - [Result Page](/result) : Shows the actual results values obtained
-      - [Delete Landing Page](/del_landing)
-      - [Delete Page](/delete) : Given the username, it deletes the vehicle details from the database
+      - Home Page(/)   
+      - Fetch and Display Page(/fetch_and_display): Responsible for fetching carbon emission details of a vehicle 
+      - Fetch Landing Page(/fetch_landing)
+      - Result Page(/result) : Shows the actual results values obtained
+      - Delete Landing Page(/del_landing)
+      - Delete Page(/delete) : Given the username, it deletes the vehicle details from the database
 
 
 ### Step 2 — Creating the support.py file: This file is used for calling the Carbon Interface APIs.
@@ -284,7 +309,7 @@ Firestore features include:
 
 ### Kubernetes
 
-Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications. It serves as a system designed to execute and coordinate containerized applications across a cluster of machines. Functioning as a comprehensive platform, it oversees the entire life cycle of containerized applications and services, employing methods that ensure predictability, scalability, and high availability.
+Kubernetes (also known as k8s or “kube”) is an open source container orchestration platform that automates many of the manual processes involved in deploying, managing, and scaling containerized applications.. It serves as a system designed to execute and coordinate containerized applications across a cluster of machines. Functioning as a comprehensive platform, it oversees the entire life cycle of containerized applications and services, employing methods that ensure predictability, scalability, and high availability.
 
 **service.yaml** contains Kubernetes load-balancer configuration for the project.
 
