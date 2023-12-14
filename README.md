@@ -53,10 +53,10 @@ Some familiarity with the below mentioned concepts:
 
    ![alt img](assets/Carbon_interface_API.jpg)
 
-5. Export environment variables
+5. Add CARBON_INTERFACE_API_KEY in .env file
 
 	```sh
-	source local_env.sh
+	CARBON_INTERFACE_API_KEY = "XXXXXXXX"
 	```
 6. Run the application locally
 	```sh
